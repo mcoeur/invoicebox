@@ -18,6 +18,10 @@ export default function NewDocumentPage() {
   const [myWebsite, setMyWebsite] = useState('');
   const [mySiren, setMySiren] = useState('');
   const [myVatNumber, setMyVatNumber] = useState('');
+  const [myBank, setMyBank] = useState('');
+  const [myIban, setMyIban] = useState('');
+  const [myBic, setMyBic] = useState('');
+  const [myTermsConditions, setMyTermsConditions] = useState('');
   const [sections, setSections] = useState<CreateDocumentSectionRequest[]>([
     { name: '', description: '', unit: 'day', quantity: 1, unit_price: 0 }
   ]);
@@ -55,6 +59,10 @@ export default function NewDocumentPage() {
         setMyWebsite(profile.website || '');
         setMySiren(profile.siren || '');
         setMyVatNumber(profile.vat_number || '');
+        setMyBank(profile.bank || '');
+        setMyIban(profile.iban || '');
+        setMyBic(profile.bic || '');
+        setMyTermsConditions(profile.terms_conditions || '');
       }
     } catch (error) {
       console.error('Error fetching user profile:', error);
@@ -107,6 +115,10 @@ export default function NewDocumentPage() {
           my_website: myWebsite || undefined,
           my_siren: mySiren || undefined,
           my_vat_number: myVatNumber || undefined,
+          my_bank: myBank || undefined,
+          my_iban: myIban || undefined,
+          my_bic: myBic || undefined,
+          my_terms_conditions: myTermsConditions || undefined,
           sections: sections,
           vat_rate: vatRate,
         }),

@@ -8,6 +8,7 @@ import { Document } from '@/types';
 export default function DocumentViewPage({ params }: { params: { id: string } }) {
   const [document, setDocument] = useState<Document | null>(null);
   const [loading, setLoading] = useState(true);
+  const [converting, setConverting] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -31,6 +32,29 @@ export default function DocumentViewPage({ params }: { params: { id: string } })
     }
   };
 
+  const convertToInvoice = async () => {
+    if (!document || document.type !== 'quote') return;
+    
+    setConverting(true);
+    try {
+      const response = await fetch(`/api/documents/${params.id}/convert-to-invoice`, {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        const invoice = await response.json();
+        router.push(`/documents/${invoice.id}`);
+      } else {
+        alert('Failed to convert quote to invoice');
+      }
+    } catch (error) {
+      console.error('Error converting quote to invoice:', error);
+      alert('Failed to convert quote to invoice');
+    } finally {
+      setConverting(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -50,27 +74,59 @@ export default function DocumentViewPage({ params }: { params: { id: string } })
   const documentTitle = document.type === 'quote' ? 'Quote' : 'Invoice';
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="mb-8 flex justify-between items-center">
+    <div className="min-h-screen bg-gray-50 print:min-h-screen print:flex print:flex-col">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 print:py-6 print:flex-1 print:flex print:flex-col">
+        <div className="mb-6 print:mb-4 flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl print:text-lg font-bold text-gray-900">
               {documentTitle} {document.number}
             </h1>
-            <p className="text-gray-600 mt-2">
+            {document.type === 'invoice' && document.quote_number && document.quote_document_id && (
+              <p className="mt-1 print:text-sm font-medium">
+                <span className="text-gray-700 print:text-black">Created from </span>
+                <Link 
+                  href={`/documents/${document.quote_document_id}`}
+                  className="text-blue-600 hover:text-blue-800 underline print:text-black print:no-underline"
+                >
+                  Quote {document.quote_number}
+                </Link>
+              </p>
+            )}
+            <p className="text-gray-600 mt-2 print:mt-1 print:text-sm">
               Created on {new Date(document.created_at).toLocaleDateString()}
             </p>
           </div>
-          <button
-            onClick={() => window.print()}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors print:hidden"
-          >
-            Print
-          </button>
+          <div className="flex gap-3 items-center print:hidden">
+            {document.type === 'quote' && (
+              document.invoice_number && document.invoice_document_id ? (
+                <Link
+                  href={`/documents/${document.invoice_document_id}`}
+                  className="text-blue-600 hover:text-blue-800 underline font-medium"
+                >
+                  → View Invoice {document.invoice_number}
+                </Link>
+              ) : (
+                <button
+                  onClick={convertToInvoice}
+                  disabled={converting}
+                  className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors disabled:opacity-50"
+                >
+                  {converting ? 'Converting...' : 'Convert to Invoice'}
+                </button>
+              )
+            )}
+            <button
+              onClick={() => window.print()}
+              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Print
+            </button>
+          </div>
         </div>
 
-        <div className="bg-white shadow-lg rounded-lg p-8 print:shadow-none">
-          <div className="grid grid-cols-1 print:grid-cols-2 md:grid-cols-2 gap-8 mb-8">
+        <div className="bg-white shadow-lg rounded-lg p-8 print:p-6 print:shadow-none print:flex-1 print:flex print:flex-col">
+          <div className="print:flex-1">
+            <div className="grid grid-cols-1 print:grid-cols-2 md:grid-cols-2 gap-8 print:gap-6 mb-8 print:mb-6">
             <div>
               <div className="text-gray-700">
                 {document.my_name && (
@@ -124,8 +180,8 @@ export default function DocumentViewPage({ params }: { params: { id: string } })
             </div>
           </div>
 
-          <div className="mb-8">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Services</h3>
+          <div className="mb-8 print:mb-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 print:mb-3">Services</h3>
             <div className="overflow-x-auto">
               <table className="min-w-full border border-gray-200">
                 <thead className="bg-gray-50">
@@ -175,7 +231,7 @@ export default function DocumentViewPage({ params }: { params: { id: string } })
             </div>
           </div>
 
-          <div className="border-t border-gray-200 pt-6">
+          <div className="border-t border-gray-200 pt-6 print:pt-4">
             <div className="max-w-md ml-auto space-y-2">
               <div className="flex justify-between text-base">
                 <span className="font-medium text-gray-700">Subtotal:</span>
@@ -192,6 +248,45 @@ export default function DocumentViewPage({ params }: { params: { id: string } })
                 <span className="text-gray-900">€{document.total.toFixed(2)}</span>
               </div>
             </div>
+          </div>
+          
+          </div>
+
+          {/* Footer sections that stick to bottom on print */}
+          <div className="print:mt-auto">
+          {/* Payment Information - Only for invoices */}
+          {document.type === 'invoice' && (document.my_bank || document.my_iban || document.my_bic) && (
+            <div className="border-t border-gray-200 pt-4 print:pt-3 mt-6 print:mt-4">
+              <h3 className="text-lg print:text-base font-semibold text-gray-900 mb-3 print:mb-2">Payment Information</h3>
+              <div className="space-y-1 print:space-y-0.5">
+                {document.my_bank && (
+                  <div className="text-sm print:text-xs">
+                    <span className="font-medium text-gray-700">Bank:</span> {document.my_bank}
+                  </div>
+                )}
+                {document.my_iban && (
+                  <div className="text-sm print:text-xs">
+                    <span className="font-medium text-gray-700">IBAN:</span> {document.my_iban}
+                  </div>
+                )}
+                {document.my_bic && (
+                  <div className="text-sm print:text-xs">
+                    <span className="font-medium text-gray-700">BIC/SWIFT:</span> {document.my_bic}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Terms and Conditions */}
+          {document.my_terms_conditions && (
+            <div className="border-t border-gray-200 pt-4 print:pt-3 mt-6 print:mt-4">
+              <h3 className="text-lg print:text-base font-semibold text-gray-900 mb-3 print:mb-2">Terms and Conditions</h3>
+              <div className="text-sm print:text-xs text-gray-700 whitespace-pre-line">
+                {document.my_terms_conditions}
+              </div>
+            </div>
+          )}
           </div>
         </div>
 

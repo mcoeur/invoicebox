@@ -13,6 +13,10 @@ export default function ProfilePage() {
   const [website, setWebsite] = useState('');
   const [siren, setSiren] = useState('');
   const [vatNumber, setVatNumber] = useState('');
+  const [bank, setBank] = useState('');
+  const [iban, setIban] = useState('');
+  const [bic, setBic] = useState('');
+  const [termsConditions, setTermsConditions] = useState('');
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [message, setMessage] = useState('');
@@ -34,6 +38,10 @@ export default function ProfilePage() {
         setWebsite(profileData.website || '');
         setSiren(profileData.siren || '');
         setVatNumber(profileData.vat_number || '');
+        setBank(profileData.bank || '');
+        setIban(profileData.iban || '');
+        setBic(profileData.bic || '');
+        setTermsConditions(profileData.terms_conditions || '');
       }
     } catch (error) {
       console.error('Error fetching profile:', error);
@@ -60,7 +68,11 @@ export default function ProfilePage() {
           phone: phone || undefined, 
           website: website || undefined,
           siren: siren || undefined,
-          vat_number: vatNumber || undefined
+          vat_number: vatNumber || undefined,
+          bank: bank || undefined,
+          iban: iban || undefined,
+          bic: bic || undefined,
+          terms_conditions: termsConditions || undefined
         }),
       });
 
@@ -205,6 +217,66 @@ export default function ProfilePage() {
                 onChange={(e) => setVatNumber(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="FR12345678901"
+              />
+            </div>
+
+            <h3 className="text-lg font-medium text-gray-900 mt-8 mb-4">Payment Information</h3>
+            
+            <div>
+              <label htmlFor="bank" className="block text-sm font-medium text-gray-700 mb-2">
+                Bank
+              </label>
+              <input
+                type="text"
+                id="bank"
+                value={bank}
+                onChange={(e) => setBank(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Bank name"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="iban" className="block text-sm font-medium text-gray-700 mb-2">
+                IBAN
+              </label>
+              <input
+                type="text"
+                id="iban"
+                value={iban}
+                onChange={(e) => setIban(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="FR14 2004 1010 0505 0001 3M02 606"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="bic" className="block text-sm font-medium text-gray-700 mb-2">
+                BIC/SWIFT
+              </label>
+              <input
+                type="text"
+                id="bic"
+                value={bic}
+                onChange={(e) => setBic(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="SOGEFRPP"
+              />
+            </div>
+
+            <h3 className="text-lg font-medium text-gray-900 mt-8 mb-4">Terms & Conditions</h3>
+            
+            <div>
+              <label htmlFor="termsConditions" className="block text-sm font-medium text-gray-700 mb-2">
+                Terms and Conditions
+              </label>
+              <textarea
+                id="termsConditions"
+                value={termsConditions}
+                onChange={(e) => setTermsConditions(e.target.value)}
+                rows={4}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Payment terms, delivery conditions, etc."
               />
             </div>
 

@@ -62,9 +62,9 @@ export class DocumentService {
     return new Promise((resolve, reject) => {
       // Create document
       db.getDb().run(
-        `INSERT INTO documents (type, number, client_id, my_address, my_name, my_email, my_phone, my_website, my_siren, my_vat_number, client_address, subtotal, vat_rate, vat_amount, total)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [data.type, number, data.client_id, data.my_address, data.my_name || '', data.my_email || '', data.my_phone || '', data.my_website || '', data.my_siren || '', data.my_vat_number || '', client.address, subtotal, vatRate, vatAmount, total],
+        `INSERT INTO documents (type, number, client_id, quote_id, my_address, my_name, my_email, my_phone, my_website, my_siren, my_vat_number, my_bank, my_iban, my_bic, my_terms_conditions, client_address, subtotal, vat_rate, vat_amount, total)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [data.type, number, data.client_id, data.quote_id || null, data.my_address, data.my_name || '', data.my_email || '', data.my_phone || '', data.my_website || '', data.my_siren || '', data.my_vat_number || '', data.my_bank || '', data.my_iban || '', data.my_bic || '', data.my_terms_conditions || '', client.address, subtotal, vatRate, vatAmount, total],
         function(err) {
           if (err) {
             reject(err);
@@ -111,9 +111,13 @@ export class DocumentService {
     const all = promisify(db.getDb().all.bind(db.getDb()));
 
     const document = await get(
-      `SELECT d.*, c.name as client_name, c.siren as client_siren, c.vat_number as client_vat_number 
+      `SELECT d.*, c.name as client_name, c.siren as client_siren, c.vat_number as client_vat_number,
+              q.number as quote_number, q.id as quote_document_id,
+              i.number as invoice_number, i.id as invoice_document_id
        FROM documents d 
        LEFT JOIN clients c ON d.client_id = c.id 
+       LEFT JOIN documents q ON d.quote_id = q.id
+       LEFT JOIN documents i ON i.quote_id = d.id AND i.type = 'invoice'
        WHERE d.id = ?`,
       [id]
     ) as Document;
@@ -152,6 +156,49 @@ export class DocumentService {
 
     const documents = await all(query, params) as Document[];
     return documents;
+  }
+
+  static async createInvoiceFromQuote(quoteId: number): Promise<Document> {
+    const db = await getDatabase();
+    
+    // Get the original quote with all its data
+    const quote = await this.getDocumentById(quoteId);
+    
+    if (!quote) {
+      throw new Error('Quote not found');
+    }
+    
+    if (quote.type !== 'quote') {
+      throw new Error('Document is not a quote');
+    }
+
+    // Create invoice data based on quote
+    const invoiceData: CreateDocumentRequest = {
+      type: 'invoice',
+      client_id: quote.client_id,
+      quote_id: quoteId,
+      my_address: quote.my_address,
+      my_name: quote.my_name,
+      my_email: quote.my_email,
+      my_phone: quote.my_phone,
+      my_website: quote.my_website,
+      my_siren: quote.my_siren,
+      my_vat_number: quote.my_vat_number,
+      my_bank: quote.my_bank,
+      my_iban: quote.my_iban,
+      my_bic: quote.my_bic,
+      my_terms_conditions: quote.my_terms_conditions,
+      sections: quote.sections?.map(section => ({
+        name: section.name,
+        description: section.description,
+        unit: section.unit,
+        quantity: section.quantity,
+        unit_price: section.unit_price
+      })) || [],
+      vat_rate: quote.vat_rate
+    };
+
+    return this.createDocument(invoiceData);
   }
 
   static async deleteDocument(id: number): Promise<boolean> {

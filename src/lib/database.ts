@@ -44,6 +44,10 @@ class Database {
         my_website TEXT DEFAULT '',
         my_siren TEXT DEFAULT '',
         my_vat_number TEXT DEFAULT '',
+        my_bank TEXT DEFAULT '',
+        my_iban TEXT DEFAULT '',
+        my_bic TEXT DEFAULT '',
+        my_terms_conditions TEXT DEFAULT '',
         client_address TEXT NOT NULL,
         subtotal REAL NOT NULL DEFAULT 0,
         vat_rate REAL NOT NULL DEFAULT 0.20,
@@ -62,6 +66,11 @@ class Database {
     await run(`ALTER TABLE documents ADD COLUMN my_website TEXT DEFAULT ''`).catch(() => {});
     await run(`ALTER TABLE documents ADD COLUMN my_siren TEXT DEFAULT ''`).catch(() => {});
     await run(`ALTER TABLE documents ADD COLUMN my_vat_number TEXT DEFAULT ''`).catch(() => {});
+    await run(`ALTER TABLE documents ADD COLUMN my_bank TEXT DEFAULT ''`).catch(() => {});
+    await run(`ALTER TABLE documents ADD COLUMN my_iban TEXT DEFAULT ''`).catch(() => {});
+    await run(`ALTER TABLE documents ADD COLUMN my_bic TEXT DEFAULT ''`).catch(() => {});
+    await run(`ALTER TABLE documents ADD COLUMN my_terms_conditions TEXT DEFAULT ''`).catch(() => {});
+    await run(`ALTER TABLE documents ADD COLUMN quote_id INTEGER`).catch(() => {});
 
     // Document sections table
     await run(`
@@ -102,6 +111,10 @@ class Database {
         website TEXT DEFAULT '',
         siren TEXT DEFAULT '',
         vat_number TEXT DEFAULT '',
+        bank TEXT DEFAULT '',
+        iban TEXT DEFAULT '',
+        bic TEXT DEFAULT '',
+        terms_conditions TEXT DEFAULT '',
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
@@ -110,6 +123,10 @@ class Database {
     // Add new columns to existing user_profile table if they don't exist
     await run(`ALTER TABLE user_profile ADD COLUMN siren TEXT DEFAULT ''`).catch(() => {});
     await run(`ALTER TABLE user_profile ADD COLUMN vat_number TEXT DEFAULT ''`).catch(() => {});
+    await run(`ALTER TABLE user_profile ADD COLUMN bank TEXT DEFAULT ''`).catch(() => {});
+    await run(`ALTER TABLE user_profile ADD COLUMN iban TEXT DEFAULT ''`).catch(() => {});
+    await run(`ALTER TABLE user_profile ADD COLUMN bic TEXT DEFAULT ''`).catch(() => {});
+    await run(`ALTER TABLE user_profile ADD COLUMN terms_conditions TEXT DEFAULT ''`).catch(() => {});
 
     // Insert default profile if it doesn't exist
     await run(`INSERT OR IGNORE INTO user_profile (id, name, address) VALUES (1, '', '')`);

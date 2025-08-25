@@ -53,6 +53,22 @@ export class UserProfileService {
       updates.push('vat_number = ?');
       values.push(data.vat_number);
     }
+    if (data.bank !== undefined) {
+      updates.push('bank = ?');
+      values.push(data.bank);
+    }
+    if (data.iban !== undefined) {
+      updates.push('iban = ?');
+      values.push(data.iban);
+    }
+    if (data.bic !== undefined) {
+      updates.push('bic = ?');
+      values.push(data.bic);
+    }
+    if (data.terms_conditions !== undefined) {
+      updates.push('terms_conditions = ?');
+      values.push(data.terms_conditions);
+    }
 
     if (updates.length === 0) {
       return this.getUserProfile();

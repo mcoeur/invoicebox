@@ -25,6 +25,7 @@ export interface Document {
   type: 'quote' | 'invoice';
   number: string;
   client_id: number;
+  quote_id?: number;
   my_address: string;
   my_name?: string;
   my_email?: string;
@@ -32,6 +33,10 @@ export interface Document {
   my_website?: string;
   my_siren?: string;
   my_vat_number?: string;
+  my_bank?: string;
+  my_iban?: string;
+  my_bic?: string;
+  my_terms_conditions?: string;
   client_address: string;
   subtotal: number;
   vat_rate: number;
@@ -44,6 +49,10 @@ export interface Document {
   client_name?: string;
   client_siren?: string;
   client_vat_number?: string;
+  quote_number?: string;
+  quote_document_id?: number;
+  invoice_number?: string;
+  invoice_document_id?: number;
 }
 
 export interface CreateClientRequest {
@@ -71,6 +80,7 @@ export interface CreateDocumentSectionRequest {
 export interface CreateDocumentRequest {
   type: 'quote' | 'invoice';
   client_id: number;
+  quote_id?: number;
   my_address: string;
   my_name?: string;
   my_email?: string;
@@ -78,6 +88,10 @@ export interface CreateDocumentRequest {
   my_website?: string;
   my_siren?: string;
   my_vat_number?: string;
+  my_bank?: string;
+  my_iban?: string;
+  my_bic?: string;
+  my_terms_conditions?: string;
   sections: CreateDocumentSectionRequest[];
   vat_rate?: number;
 }
@@ -91,6 +105,10 @@ export interface UserProfile {
   website?: string;
   siren?: string;
   vat_number?: string;
+  bank?: string;
+  iban?: string;
+  bic?: string;
+  terms_conditions?: string;
   created_at: string;
   updated_at: string;
 }
@@ -103,4 +121,8 @@ export interface UpdateUserProfileRequest {
   website?: string;
   siren?: string;
   vat_number?: string;
+  bank?: string;
+  iban?: string;
+  bic?: string;
+  terms_conditions?: string;
 }
