@@ -2,9 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { UserProfile } from '@/types';
 
 export default function ProfilePage() {
+  const t = useTranslations('profile');
+  const tCommon = useTranslations('common');
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
@@ -79,14 +82,14 @@ export default function ProfilePage() {
       if (response.ok) {
         const updatedProfile = await response.json();
         setProfile(updatedProfile);
-        setMessage('Profile updated successfully!');
+        setMessage(t('updateSuccess'));
         setTimeout(() => setMessage(''), 3000);
       } else {
-        setMessage('Failed to update profile');
+        setMessage(t('updateFailed'));
       }
     } catch (error) {
       console.error('Error updating profile:', error);
-      setMessage('Failed to update profile');
+      setMessage(t('updateFailed'));
     } finally {
       setLoading(false);
     }
@@ -95,7 +98,7 @@ export default function ProfilePage() {
   if (initialLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-xl text-gray-600">Loading...</div>
+        <div className="text-xl text-gray-600">{tCommon('loading')}</div>
       </div>
     );
   }
@@ -104,8 +107,8 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
-          <p className="text-gray-600 mt-2">Manage your personal information used in quotes and invoices</p>
+          <h1 className="text-3xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="text-gray-600 mt-2">{t('subtitle')}</p>
         </div>
 
         {message && (
@@ -122,7 +125,7 @@ export default function ProfilePage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                Name *
+                {t('form.name')} {t('form.nameRequired')}
               </label>
               <input
                 type="text"
@@ -131,13 +134,13 @@ export default function ProfilePage() {
                 onChange={(e) => setName(e.target.value)}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Your full name or business name"
+                placeholder={t('form.namePlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
-                Address *
+                {t('form.address')} {t('form.addressRequired')}
               </label>
               <textarea
                 id="address"
@@ -146,13 +149,13 @@ export default function ProfilePage() {
                 required
                 rows={4}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Your business address"
+                placeholder={t('form.addressPlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email
+                {t('form.email')}
               </label>
               <input
                 type="email"
@@ -160,13 +163,13 @@ export default function ProfilePage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="your@email.com"
+                placeholder={t('form.emailPlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                Phone
+                {t('form.phone')}
               </label>
               <input
                 type="tel"
@@ -174,13 +177,13 @@ export default function ProfilePage() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="+33 1 23 45 67 89"
+                placeholder={t('form.phonePlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-2">
-                Website
+                {t('form.website')}
               </label>
               <input
                 type="text"
@@ -188,14 +191,14 @@ export default function ProfilePage() {
                 value={website}
                 onChange={(e) => setWebsite(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="www.yourwebsite.com"
+                placeholder={t('form.websitePlaceholder')}
               />
-              <p className="text-xs text-gray-500 mt-1">Leave empty to hide from documents</p>
+              <p className="text-xs text-gray-500 mt-1">{t('hideHelper')}</p>
             </div>
 
             <div>
               <label htmlFor="siren" className="block text-sm font-medium text-gray-700 mb-2">
-                SIREN
+                {t('form.siren')}
               </label>
               <input
                 type="text"
@@ -203,13 +206,13 @@ export default function ProfilePage() {
                 value={siren}
                 onChange={(e) => setSiren(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="123 456 789"
+                placeholder={t('form.sirenPlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="vatNumber" className="block text-sm font-medium text-gray-700 mb-2">
-                VAT Number
+                {t('form.vatNumber')}
               </label>
               <input
                 type="text"
@@ -217,15 +220,15 @@ export default function ProfilePage() {
                 value={vatNumber}
                 onChange={(e) => setVatNumber(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="FR12345678901"
+                placeholder={t('form.vatNumberPlaceholder')}
               />
             </div>
 
-            <h3 className="text-lg font-medium text-gray-900 mt-8 mb-4">Payment Information</h3>
+            <h3 className="text-lg font-medium text-gray-900 mt-8 mb-4">{t('paymentInfo')}</h3>
             
             <div>
               <label htmlFor="bank" className="block text-sm font-medium text-gray-700 mb-2">
-                Bank
+                {t('form.bank')}
               </label>
               <input
                 type="text"
@@ -233,13 +236,13 @@ export default function ProfilePage() {
                 value={bank}
                 onChange={(e) => setBank(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Bank name"
+                placeholder={t('form.bankPlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="iban" className="block text-sm font-medium text-gray-700 mb-2">
-                IBAN
+                {t('form.iban')}
               </label>
               <input
                 type="text"
@@ -247,13 +250,13 @@ export default function ProfilePage() {
                 value={iban}
                 onChange={(e) => setIban(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="FR14 2004 1010 0505 0001 3M02 606"
+                placeholder={t('form.ibanPlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="bic" className="block text-sm font-medium text-gray-700 mb-2">
-                BIC/SWIFT
+                {t('form.bic')}
               </label>
               <input
                 type="text"
@@ -261,15 +264,15 @@ export default function ProfilePage() {
                 value={bic}
                 onChange={(e) => setBic(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="SOGEFRPP"
+                placeholder={t('form.bicPlaceholder')}
               />
             </div>
 
-            <h3 className="text-lg font-medium text-gray-900 mt-8 mb-4">Terms & Conditions</h3>
+            <h3 className="text-lg font-medium text-gray-900 mt-8 mb-4">{t('termsSection')}</h3>
             
             <div>
               <label htmlFor="termsConditions" className="block text-sm font-medium text-gray-700 mb-2">
-                Terms and Conditions
+                {t('form.terms')}
               </label>
               <textarea
                 id="termsConditions"
@@ -277,7 +280,7 @@ export default function ProfilePage() {
                 onChange={(e) => setTermsConditions(e.target.value)}
                 rows={4}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Payment terms, delivery conditions, etc."
+                placeholder={t('form.termsPlaceholder')}
               />
             </div>
 
@@ -287,13 +290,13 @@ export default function ProfilePage() {
                 disabled={loading}
                 className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
               >
-                {loading ? 'Updating...' : 'Update Profile'}
+                {loading ? t('updating') : t('update')}
               </button>
               <Link
                 href="/"
                 className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 transition-colors"
               >
-                Back to Dashboard
+                {tCommon('backToDashboard')}
               </Link>
             </div>
           </form>

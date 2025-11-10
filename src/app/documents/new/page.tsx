@@ -3,9 +3,13 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { Client, CreateDocumentSectionRequest, UserProfile } from '@/types';
 
 export default function NewDocumentPage() {
+  const t = useTranslations('documents');
+  const tCommon = useTranslations('common');
+  const tProfile = useTranslations('profile');
   const searchParams = useSearchParams();
   const documentType = (searchParams.get('type') || 'quote') as 'quote' | 'invoice';
   
@@ -137,14 +141,15 @@ export default function NewDocumentPage() {
     }
   };
 
-  const documentTitle = documentType === 'quote' ? 'Quote' : 'Invoice';
+  const documentTitle = documentType === 'quote' ? t('new.titleQuote') : t('new.titleInvoice');
+  const documentSubtitle = documentType === 'quote' ? t('new.subtitleQuote') : t('new.subtitleInvoice');
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Create New {documentTitle}</h1>
-          <p className="text-gray-600 mt-2">Generate a new {documentType} for your client</p>
+          <h1 className="text-3xl font-bold text-gray-900">{documentTitle}</h1>
+          <p className="text-gray-600 mt-2">{documentSubtitle}</p>
         </div>
 
         <div className="bg-white shadow-md rounded-lg p-6">
@@ -152,7 +157,7 @@ export default function NewDocumentPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="client" className="block text-sm font-medium text-gray-700 mb-2">
-                  Client *
+                  {t('new.client')} {t('new.clientRequired')}
                 </label>
                 <select
                   id="client"
@@ -161,7 +166,7 @@ export default function NewDocumentPage() {
                   required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="">Select a client</option>
+                  <option value="">{t('new.selectClient')}</option>
                   {clients.map((client) => (
                     <option key={client.id} value={client.id}>
                       {client.name}
@@ -172,7 +177,7 @@ export default function NewDocumentPage() {
 
               <div>
                 <label htmlFor="vatRate" className="block text-sm font-medium text-gray-700 mb-2">
-                  VAT Rate
+                  {t('new.vatRate')}
                 </label>
                 <select
                   id="vatRate"
@@ -188,12 +193,12 @@ export default function NewDocumentPage() {
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-lg font-medium text-gray-900">Your Information</h3>
+              <h3 className="text-lg font-medium text-gray-900">{t('new.yourInfo')}</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="myName" className="block text-sm font-medium text-gray-700 mb-1">
-                    Name *
+                    {tProfile('form.name')} {tProfile('form.nameRequired')}
                   </label>
                   <input
                     type="text"
@@ -202,13 +207,13 @@ export default function NewDocumentPage() {
                     onChange={(e) => setMyName(e.target.value)}
                     required
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Your name or business name"
+                    placeholder={tProfile('form.namePlaceholder')}
                   />
                 </div>
 
                 <div>
                   <label htmlFor="myEmail" className="block text-sm font-medium text-gray-700 mb-1">
-                    Email
+                    {tProfile('form.email')}
                   </label>
                   <input
                     type="email"
@@ -216,13 +221,13 @@ export default function NewDocumentPage() {
                     value={myEmail}
                     onChange={(e) => setMyEmail(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="your@email.com"
+                    placeholder={tProfile('form.emailPlaceholder')}
                   />
                 </div>
 
                 <div>
                   <label htmlFor="myPhone" className="block text-sm font-medium text-gray-700 mb-1">
-                    Phone
+                    {tProfile('form.phone')}
                   </label>
                   <input
                     type="tel"
@@ -230,13 +235,13 @@ export default function NewDocumentPage() {
                     value={myPhone}
                     onChange={(e) => setMyPhone(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="+33 1 23 45 67 89"
+                    placeholder={tProfile('form.phonePlaceholder')}
                   />
                 </div>
 
                 <div>
                   <label htmlFor="myWebsite" className="block text-sm font-medium text-gray-700 mb-1">
-                    Website
+                    {tProfile('form.website')}
                   </label>
                   <input
                     type="url"
@@ -244,13 +249,13 @@ export default function NewDocumentPage() {
                     value={myWebsite}
                     onChange={(e) => setMyWebsite(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="https://www.yourwebsite.com"
+                    placeholder={tProfile('form.websitePlaceholder')}
                   />
                 </div>
 
                 <div>
                   <label htmlFor="mySiren" className="block text-sm font-medium text-gray-700 mb-1">
-                    SIREN
+                    {tProfile('form.siren')}
                   </label>
                   <input
                     type="text"
@@ -258,13 +263,13 @@ export default function NewDocumentPage() {
                     value={mySiren}
                     onChange={(e) => setMySiren(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="123 456 789"
+                    placeholder={tProfile('form.sirenPlaceholder')}
                   />
                 </div>
 
                 <div>
                   <label htmlFor="myVatNumber" className="block text-sm font-medium text-gray-700 mb-1">
-                    VAT Number
+                    {tProfile('form.vatNumber')}
                   </label>
                   <input
                     type="text"
@@ -272,14 +277,14 @@ export default function NewDocumentPage() {
                     value={myVatNumber}
                     onChange={(e) => setMyVatNumber(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="FR12345678901"
+                    placeholder={tProfile('form.vatNumberPlaceholder')}
                   />
                 </div>
               </div>
 
               <div>
                 <label htmlFor="myAddress" className="block text-sm font-medium text-gray-700 mb-1">
-                  Address *
+                  {tProfile('form.address')} {tProfile('form.addressRequired')}
                 </label>
                 <textarea
                   id="myAddress"
@@ -288,34 +293,34 @@ export default function NewDocumentPage() {
                   required
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Your business address"
+                  placeholder={tProfile('form.addressPlaceholder')}
                 />
               </div>
             </div>
 
             <div>
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-medium text-gray-900">Sections</h3>
+                <h3 className="text-lg font-medium text-gray-900">{t('new.sections')}</h3>
                 <button
                   type="button"
                   onClick={addSection}
                   className="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 transition-colors text-sm"
                 >
-                  Add Section
+                  {t('new.addSection')}
                 </button>
               </div>
 
               {sections.map((section, index) => (
                 <div key={index} className="border border-gray-200 rounded-md p-4 mb-4">
                   <div className="flex justify-between items-center mb-3">
-                    <h4 className="font-medium text-gray-800">Section {index + 1}</h4>
+                    <h4 className="font-medium text-gray-800">{t('section.label')} {index + 1}</h4>
                     {sections.length > 1 && (
                       <button
                         type="button"
                         onClick={() => removeSection(index)}
                         className="text-red-600 hover:text-red-800 text-sm"
                       >
-                        Remove
+                        {t('section.remove')}
                       </button>
                     )}
                   </div>
@@ -323,7 +328,7 @@ export default function NewDocumentPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Name *
+                        {t('section.name')} {t('section.nameRequired')}
                       </label>
                       <input
                         type="text"
@@ -331,41 +336,41 @@ export default function NewDocumentPage() {
                         onChange={(e) => updateSection(index, 'name', e.target.value)}
                         required
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                        placeholder="Section name"
+                        placeholder={t('section.namePlaceholder')}
                       />
                     </div>
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Description
+                        {t('section.description')}
                       </label>
                       <input
                         type="text"
                         value={section.description}
                         onChange={(e) => updateSection(index, 'description', e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                        placeholder="Description"
+                        placeholder={t('section.descriptionPlaceholder')}
                       />
                     </div>
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Unit
+                        {t('section.unit')}
                       </label>
                       <select
                         value={section.unit}
                         onChange={(e) => updateSection(index, 'unit', e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       >
-                        <option value="day">Day</option>
-                        <option value="hour">Hour</option>
-                        <option value="mission">Mission</option>
+                        <option value="day">{t('section.unitDay')}</option>
+                        <option value="hour">{t('section.unitHour')}</option>
+                        <option value="mission">{t('section.unitMission')}</option>
                       </select>
                     </div>
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Quantity
+                        {t('section.quantity')}
                       </label>
                       <input
                         type="number"
@@ -379,7 +384,7 @@ export default function NewDocumentPage() {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Unit Price (€)
+                        {t('section.unitPrice')}
                       </label>
                       <input
                         type="number"
@@ -404,15 +409,15 @@ export default function NewDocumentPage() {
             <div className="bg-gray-50 p-4 rounded-md">
               <div className="text-right space-y-2">
                 <div className="flex justify-between">
-                  <span className="font-medium">Subtotal:</span>
+                  <span className="font-medium">{t('new.subtotal')}</span>
                   <span>€{calculateSubtotal().toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-medium">VAT ({(vatRate * 100).toFixed(0)}%):</span>
+                  <span className="font-medium">{t('new.vat')} ({(vatRate * 100).toFixed(0)}%):</span>
                   <span>€{calculateVat().toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-lg font-bold border-t pt-2">
-                  <span>Total:</span>
+                  <span>{t('new.total')}</span>
                   <span>€{calculateTotal().toFixed(2)}</span>
                 </div>
               </div>
@@ -424,13 +429,13 @@ export default function NewDocumentPage() {
                 disabled={loading}
                 className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
               >
-                {loading ? 'Creating...' : `Create ${documentTitle}`}
+                {loading ? t('new.creating') : (documentType === 'quote' ? t('new.createQuote') : t('new.createInvoice'))}
               </button>
               <Link
                 href="/documents"
                 className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 transition-colors"
               >
-                Cancel
+                {tCommon('cancel')}
               </Link>
             </div>
           </form>

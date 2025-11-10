@@ -2,9 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { Document } from '@/types';
 
 export default function DocumentsPage() {
+  const t = useTranslations('documents');
+  const tCommon = useTranslations('common');
   const [documents, setDocuments] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'quote' | 'invoice'>('all');
@@ -30,7 +33,7 @@ export default function DocumentsPage() {
   };
 
   const deleteDocument = async (id: number, type: 'quote' | 'invoice') => {
-    if (!confirm('Are you sure you want to delete this document?')) {
+    if (!confirm(t('deleteConfirm'))) {
       return;
     }
 
@@ -47,18 +50,18 @@ export default function DocumentsPage() {
       } else {
         const errorData = await response.json();
         console.error('Delete failed:', errorData);
-        alert(`Failed to delete ${type}`);
+        alert(t('deleteFailed'));
       }
     } catch (error) {
       console.error('Error deleting document:', error);
-      alert(`Failed to delete ${type}`);
+      alert(t('deleteFailed'));
     }
   };
 
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-xl text-gray-600">Loading...</div>
+        <div className="text-xl text-gray-600">{tCommon('loading')}</div>
       </div>
     );
   }
@@ -68,21 +71,21 @@ export default function DocumentsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">All Documents</h1>
-            <p className="text-gray-600 mt-2">View all your quotes and invoices</p>
+            <h1 className="text-3xl font-bold text-gray-900">{t('title')}</h1>
+            <p className="text-gray-600 mt-2">{t('subtitle')}</p>
           </div>
           <div className="flex gap-2">
             <Link
               href="/documents/new?type=quote"
               className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
             >
-              New Quote
+              {t('newQuote')}
             </Link>
             <Link
               href="/documents/new?type=invoice"
               className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
             >
-              New Invoice
+              {t('newInvoice')}
             </Link>
           </div>
         </div>
@@ -97,7 +100,7 @@ export default function DocumentsPage() {
                   : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
               }`}
             >
-              All Documents
+              {t('filterAll')}
             </button>
             <button
               onClick={() => setFilter('quote')}
@@ -107,7 +110,7 @@ export default function DocumentsPage() {
                   : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
               }`}
             >
-              Quotes Only
+              {t('filterQuotes')}
             </button>
             <button
               onClick={() => setFilter('invoice')}
@@ -117,27 +120,27 @@ export default function DocumentsPage() {
                   : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
               }`}
             >
-              Invoices Only
+              {t('filterInvoices')}
             </button>
           </div>
         </div>
 
         {documents.length === 0 ? (
           <div className="bg-white rounded-lg shadow-md p-8 text-center">
-            <p className="text-gray-500 mb-4">No documents found</p>
+            <p className="text-gray-500 mb-4">{t('noDocuments')}</p>
             <div className="flex gap-4 justify-center">
               <Link
                 href="/documents/new?type=quote"
                 className="text-blue-600 hover:text-blue-800 underline"
               >
-                Create your first quote
+                {t('createFirstQuote')}
               </Link>
-              <span className="text-gray-400">or</span>
+              <span className="text-gray-400">{tCommon('or')}</span>
               <Link
                 href="/documents/new?type=invoice"
                 className="text-blue-600 hover:text-blue-800 underline"
               >
-                Create your first invoice
+                {t('createFirstInvoice')}
               </Link>
             </div>
           </div>
@@ -147,22 +150,22 @@ export default function DocumentsPage() {
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Type
+                    {t('table.type')}
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Number
+                    {t('table.number')}
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Client
+                    {t('table.client')}
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Total
+                    {t('table.total')}
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Created
+                    {t('table.created')}
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
+                    {tCommon('actions')}
                   </th>
                 </tr>
               </thead>
@@ -199,13 +202,13 @@ export default function DocumentsPage() {
                         href={`/documents/${document.id}`}
                         className="text-blue-600 hover:text-blue-900 mr-4"
                       >
-                        View
+                        {tCommon('view')}
                       </Link>
                       <button
                         onClick={() => deleteDocument(document.id, document.type)}
                         className="text-red-600 hover:text-red-900"
                       >
-                        Delete
+                        {tCommon('delete')}
                       </button>
                     </td>
                   </tr>
@@ -220,7 +223,7 @@ export default function DocumentsPage() {
             href="/"
             className="text-blue-600 hover:text-blue-800 underline"
           >
-            ← Back to Dashboard
+            {tCommon('backToDashboard')}
           </Link>
         </div>
       </div>

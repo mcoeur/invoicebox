@@ -2,10 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { Client } from '@/types';
 
 export default function EditClientPage({ params }: { params: { id: string } }) {
+  const t = useTranslations('clients');
+  const tCommon = useTranslations('common');
   const [client, setClient] = useState<Client | null>(null);
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
@@ -69,7 +72,7 @@ export default function EditClientPage({ params }: { params: { id: string } }) {
   if (initialLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-xl text-gray-600">Loading...</div>
+        <div className="text-xl text-gray-600">{tCommon('loading')}</div>
       </div>
     );
   }
@@ -77,7 +80,7 @@ export default function EditClientPage({ params }: { params: { id: string } }) {
   if (!client) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-xl text-gray-600">Client not found</div>
+        <div className="text-xl text-gray-600">{t('edit.notFound')}</div>
       </div>
     );
   }
@@ -86,15 +89,15 @@ export default function EditClientPage({ params }: { params: { id: string } }) {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Edit Client</h1>
-          <p className="text-gray-600 mt-2">Update client information</p>
+          <h1 className="text-3xl font-bold text-gray-900">{t('edit.title')}</h1>
+          <p className="text-gray-600 mt-2">{t('edit.subtitle')}</p>
         </div>
 
         <div className="bg-white shadow-md rounded-lg p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                Client Name *
+                {t('form.name')} {t('form.nameRequired')}
               </label>
               <input
                 type="text"
@@ -103,13 +106,13 @@ export default function EditClientPage({ params }: { params: { id: string } }) {
                 onChange={(e) => setName(e.target.value)}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter client name"
+                placeholder={t('form.namePlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
-                Address *
+                {t('form.address')} {t('form.addressRequired')}
               </label>
               <textarea
                 id="address"
@@ -118,13 +121,13 @@ export default function EditClientPage({ params }: { params: { id: string } }) {
                 required
                 rows={4}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter client address"
+                placeholder={t('form.addressPlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="siren" className="block text-sm font-medium text-gray-700 mb-2">
-                SIREN
+                {t('form.siren')}
               </label>
               <input
                 type="text"
@@ -132,13 +135,13 @@ export default function EditClientPage({ params }: { params: { id: string } }) {
                 value={siren}
                 onChange={(e) => setSiren(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter SIREN number"
+                placeholder={t('form.sirenPlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="vatNumber" className="block text-sm font-medium text-gray-700 mb-2">
-                VAT Number
+                {t('form.vatNumber')}
               </label>
               <input
                 type="text"
@@ -146,7 +149,7 @@ export default function EditClientPage({ params }: { params: { id: string } }) {
                 value={vatNumber}
                 onChange={(e) => setVatNumber(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter VAT number"
+                placeholder={t('form.vatNumberPlaceholder')}
               />
             </div>
 
@@ -156,13 +159,13 @@ export default function EditClientPage({ params }: { params: { id: string } }) {
                 disabled={loading}
                 className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
               >
-                {loading ? 'Updating...' : 'Update Client'}
+                {loading ? t('edit.updating') : t('edit.update')}
               </button>
               <Link
                 href="/clients"
                 className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 transition-colors"
               >
-                Cancel
+                {tCommon('cancel')}
               </Link>
             </div>
           </form>

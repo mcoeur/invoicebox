@@ -1,6 +1,207 @@
 {
   "home": {
     "title": "Invoice Box",
-    "subtitle": "Manage your clients, quotes, and invoices"
+    "subtitle": "Manage your clients, quotes, and invoices",
+    "cards": {
+      "clients": {
+        "title": "Clients",
+        "description": "Manage your client information"
+      },
+      "documents": {
+        "title": "Documents",
+        "description": "View and manage all quotes and invoices"
+      },
+      "profile": {
+        "title": "My Profile",
+        "description": "Manage your personal information"
+      },
+      "settings": {
+        "title": "Settings",
+        "description": "Configure document numbering"
+      }
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "backToDashboard": "← Back to Dashboard",
+    "backToDocuments": "← Back to Documents",
+    "or": "or",
+    "print": "Print",
+    "actions": "Actions"
+  },
+  "clients": {
+    "title": "Clients",
+    "subtitle": "Manage your client information",
+    "addNew": "Add New Client",
+    "noClients": "No clients found",
+    "createFirst": "Create your first client",
+    "deleteConfirm": "Are you sure you want to delete this client?",
+    "deleteFailed": "Failed to delete client",
+    "table": {
+      "name": "Name",
+      "address": "Address",
+      "siren": "SIREN",
+      "vatNumber": "VAT Number",
+      "created": "Created"
+    },
+    "new": {
+      "title": "Add New Client",
+      "subtitle": "Create a new client profile",
+      "creating": "Creating...",
+      "create": "Create Client"
+    },
+    "edit": {
+      "title": "Edit Client",
+      "subtitle": "Update client information",
+      "updating": "Updating...",
+      "update": "Update Client",
+      "notFound": "Client not found"
+    },
+    "form": {
+      "name": "Client Name",
+      "namePlaceholder": "Enter client name",
+      "nameRequired": "*",
+      "address": "Address",
+      "addressPlaceholder": "Enter client address",
+      "addressRequired": "*",
+      "siren": "SIREN",
+      "sirenPlaceholder": "Enter SIREN number",
+      "vatNumber": "VAT Number",
+      "vatNumberPlaceholder": "Enter VAT number"
+    }
+  },
+  "documents": {
+    "title": "All Documents",
+    "subtitle": "View all your quotes and invoices",
+    "newQuote": "New Quote",
+    "newInvoice": "New Invoice",
+    "filterAll": "All Documents",
+    "filterQuotes": "Quotes Only",
+    "filterInvoices": "Invoices Only",
+    "noDocuments": "No documents found",
+    "createFirstQuote": "Create your first quote",
+    "createFirstInvoice": "Create your first invoice",
+    "deleteConfirm": "Are you sure you want to delete this document?",
+    "deleteFailed": "Failed to delete",
+    "quote": "Quote",
+    "invoice": "Invoice",
+    "table": {
+      "type": "Type",
+      "number": "Number",
+      "client": "Client",
+      "total": "Total",
+      "created": "Created"
+    },
+    "new": {
+      "titleQuote": "Create New Quote",
+      "titleInvoice": "Create New Invoice",
+      "subtitleQuote": "Generate a new quote for your client",
+      "subtitleInvoice": "Generate a new invoice for your client",
+      "creating": "Creating...",
+      "createQuote": "Create Quote",
+      "createInvoice": "Create Invoice",
+      "createFailed": "Failed to create",
+      "client": "Client",
+      "clientRequired": "*",
+      "selectClient": "Select a client",
+      "vatRate": "VAT Rate",
+      "yourInfo": "Your Information",
+      "sections": "Sections",
+      "addSection": "Add Section",
+      "subtotal": "Subtotal:",
+      "vat": "VAT",
+      "total": "Total:"
+    },
+    "view": {
+      "quote": "Quote",
+      "invoice": "Invoice",
+      "createdFrom": "Created from",
+      "createdOn": "Created on",
+      "viewInvoice": "→ View Invoice",
+      "convertToInvoice": "Convert to Invoice",
+      "converting": "Converting...",
+      "notFound": "Document not found",
+      "services": "Services",
+      "description": "Description",
+      "unit": "Unit",
+      "quantity": "Quantity",
+      "unitPrice": "Unit Price",
+      "total": "Total",
+      "subtotal": "Subtotal:",
+      "vat": "VAT",
+      "payment": {
+        "title": "Payment Information",
+        "bank": "Bank:",
+        "iban": "IBAN:",
+        "bic": "BIC/SWIFT:"
+      },
+      "terms": {
+        "title": "Terms and Conditions"
+      }
+    },
+    "section": {
+      "label": "Section",
+      "name": "Name",
+      "namePlaceholder": "Section name",
+      "nameRequired": "*",
+      "description": "Description",
+      "descriptionPlaceholder": "Description",
+      "unit": "Unit",
+      "unitDay": "Day",
+      "unitHour": "Hour",
+      "unitMission": "Mission",
+      "quantity": "Quantity",
+      "unitPrice": "Unit Price (€)",
+      "remove": "Remove"
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "subtitle": "Manage your personal information used in quotes and invoices",
+    "updating": "Updating...",
+    "update": "Update Profile",
+    "updateSuccess": "Profile updated successfully!",
+    "updateFailed": "Failed to update profile",
+    "paymentInfo": "Payment Information",
+    "termsSection": "Terms & Conditions",
+    "hideHelper": "Leave empty to hide from documents",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Your full name or business name",
+      "nameRequired": "*",
+      "address": "Address",
+      "addressPlaceholder": "Your business address",
+      "addressRequired": "*",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "phone": "Phone",
+      "phonePlaceholder": "+33 1 23 45 67 89",
+      "website": "Website",
+      "websitePlaceholder": "www.yourwebsite.com",
+      "siren": "SIREN",
+      "sirenPlaceholder": "123 456 789",
+      "vatNumber": "VAT Number",
+      "vatNumberPlaceholder": "FR12345678901",
+      "bank": "Bank",
+      "bankPlaceholder": "Bank name",
+      "iban": "IBAN",
+      "ibanPlaceholder": "FR14 2004 1010 0505 0001 3M02 606",
+      "bic": "BIC/SWIFT",
+      "bicPlaceholder": "SOGEFRPP",
+      "terms": "Terms and Conditions",
+      "termsPlaceholder": "Payment terms, delivery conditions, etc."
+    }
+  },
+  "footer": {
+    "copyright": "InvoiceBox. All rights reserved.",
+    "language": "Language:"
+  },
+  "metadata": {
+    "title": "InvoiceBox - Manage your invoices and quotes",
+    "description": "Professional invoice management application"
   }
 }

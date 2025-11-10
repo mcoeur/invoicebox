@@ -2,9 +2,12 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 export default function NewClientPage() {
+  const t = useTranslations('clients');
+  const tCommon = useTranslations('common');
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [siren, setSiren] = useState('');
@@ -42,15 +45,15 @@ export default function NewClientPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Add New Client</h1>
-          <p className="text-gray-600 mt-2">Create a new client profile</p>
+          <h1 className="text-3xl font-bold text-gray-900">{t('new.title')}</h1>
+          <p className="text-gray-600 mt-2">{t('new.subtitle')}</p>
         </div>
 
         <div className="bg-white shadow-md rounded-lg p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                Client Name *
+                {t('form.name')} {t('form.nameRequired')}
               </label>
               <input
                 type="text"
@@ -59,13 +62,13 @@ export default function NewClientPage() {
                 onChange={(e) => setName(e.target.value)}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter client name"
+                placeholder={t('form.namePlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
-                Address *
+                {t('form.address')} {t('form.addressRequired')}
               </label>
               <textarea
                 id="address"
@@ -74,13 +77,13 @@ export default function NewClientPage() {
                 required
                 rows={4}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter client address"
+                placeholder={t('form.addressPlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="siren" className="block text-sm font-medium text-gray-700 mb-2">
-                SIREN
+                {t('form.siren')}
               </label>
               <input
                 type="text"
@@ -88,13 +91,13 @@ export default function NewClientPage() {
                 value={siren}
                 onChange={(e) => setSiren(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter SIREN number"
+                placeholder={t('form.sirenPlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="vatNumber" className="block text-sm font-medium text-gray-700 mb-2">
-                VAT Number
+                {t('form.vatNumber')}
               </label>
               <input
                 type="text"
@@ -102,7 +105,7 @@ export default function NewClientPage() {
                 value={vatNumber}
                 onChange={(e) => setVatNumber(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter VAT number"
+                placeholder={t('form.vatNumberPlaceholder')}
               />
             </div>
 
@@ -112,13 +115,13 @@ export default function NewClientPage() {
                 disabled={loading}
                 className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
               >
-                {loading ? 'Creating...' : 'Create Client'}
+                {loading ? t('new.creating') : t('new.create')}
               </button>
               <Link
                 href="/clients"
                 className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 transition-colors"
               >
-                Cancel
+                {tCommon('cancel')}
               </Link>
             </div>
           </form>

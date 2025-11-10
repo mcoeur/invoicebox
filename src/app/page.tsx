@@ -22,9 +22,9 @@ export default function Home() {
             <div className="text-center">
               <div className="text-3xl mb-4">👥</div>
               <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                Clients
+                {t("cards.clients.title")}
               </h2>
-              <p className="text-gray-600">Manage your client information</p>
+              <p className="text-gray-600">{t("cards.clients.description")}</p>
             </div>
           </Link>
 
@@ -35,10 +35,10 @@ export default function Home() {
             <div className="text-center">
               <div className="text-3xl mb-4">📄</div>
               <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                Documents
+                {t("cards.documents.title")}
               </h2>
               <p className="text-gray-600">
-                View and manage all quotes and invoices
+                {t("cards.documents.description")}
               </p>
             </div>
           </Link>
@@ -50,9 +50,9 @@ export default function Home() {
             <div className="text-center">
               <div className="text-3xl mb-4">⚙️</div>
               <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                My Profile
+                {t("cards.profile.title")}
               </h2>
-              <p className="text-gray-600">Manage your personal information</p>
+              <p className="text-gray-600">{t("cards.profile.description")}</p>
             </div>
           </Link>
 
@@ -63,9 +63,9 @@ export default function Home() {
             <div className="text-center">
               <div className="text-3xl mb-4">🔢</div>
               <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                Settings
+                {t("cards.settings.title")}
               </h2>
-              <p className="text-gray-600">Configure document numbering</p>
+              <p className="text-gray-600">{t("cards.settings.description")}</p>
             </div>
           </Link>
         </div>

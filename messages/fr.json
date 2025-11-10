@@ -1,6 +1,207 @@
 {
   "home": {
     "title": "Invoice Box",
-    "subtitle": "Gérez vos clients, vos devis et vos factures"
+    "subtitle": "Gérez vos clients, vos devis et vos factures",
+    "cards": {
+      "clients": {
+        "title": "Clients",
+        "description": "Gérez les informations de vos clients"
+      },
+      "documents": {
+        "title": "Documents",
+        "description": "Consultez et gérez tous vos devis et factures"
+      },
+      "profile": {
+        "title": "Mon Profil",
+        "description": "Gérez vos informations personnelles"
+      },
+      "settings": {
+        "title": "Paramètres",
+        "description": "Configurez la numérotation des documents"
+      }
+    }
+  },
+  "common": {
+    "loading": "Chargement...",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "view": "Voir",
+    "backToDashboard": "← Retour au tableau de bord",
+    "backToDocuments": "← Retour aux documents",
+    "or": "ou",
+    "print": "Imprimer",
+    "actions": "Actions"
+  },
+  "clients": {
+    "title": "Clients",
+    "subtitle": "Gérez les informations de vos clients",
+    "addNew": "Ajouter un nouveau client",
+    "noClients": "Aucun client trouvé",
+    "createFirst": "Créez votre premier client",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer ce client ?",
+    "deleteFailed": "Échec de la suppression du client",
+    "table": {
+      "name": "Nom",
+      "address": "Adresse",
+      "siren": "SIREN",
+      "vatNumber": "Numéro de TVA",
+      "created": "Créé le"
+    },
+    "new": {
+      "title": "Ajouter un nouveau client",
+      "subtitle": "Créer un nouveau profil client",
+      "creating": "Création...",
+      "create": "Créer le client"
+    },
+    "edit": {
+      "title": "Modifier le client",
+      "subtitle": "Mettre à jour les informations du client",
+      "updating": "Mise à jour...",
+      "update": "Mettre à jour le client",
+      "notFound": "Client introuvable"
+    },
+    "form": {
+      "name": "Nom du client",
+      "namePlaceholder": "Entrez le nom du client",
+      "nameRequired": "*",
+      "address": "Adresse",
+      "addressPlaceholder": "Entrez l'adresse du client",
+      "addressRequired": "*",
+      "siren": "SIREN",
+      "sirenPlaceholder": "Entrez le numéro SIREN",
+      "vatNumber": "Numéro de TVA",
+      "vatNumberPlaceholder": "Entrez le numéro de TVA"
+    }
+  },
+  "documents": {
+    "title": "Tous les documents",
+    "subtitle": "Consultez tous vos devis et factures",
+    "newQuote": "Nouveau devis",
+    "newInvoice": "Nouvelle facture",
+    "filterAll": "Tous les documents",
+    "filterQuotes": "Devis uniquement",
+    "filterInvoices": "Factures uniquement",
+    "noDocuments": "Aucun document trouvé",
+    "createFirstQuote": "Créez votre premier devis",
+    "createFirstInvoice": "Créez votre première facture",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer ce document ?",
+    "deleteFailed": "Échec de la suppression",
+    "quote": "Devis",
+    "invoice": "Facture",
+    "table": {
+      "type": "Type",
+      "number": "Numéro",
+      "client": "Client",
+      "total": "Total",
+      "created": "Créé le"
+    },
+    "new": {
+      "titleQuote": "Créer un nouveau devis",
+      "titleInvoice": "Créer une nouvelle facture",
+      "subtitleQuote": "Générer un nouveau devis pour votre client",
+      "subtitleInvoice": "Générer une nouvelle facture pour votre client",
+      "creating": "Création...",
+      "createQuote": "Créer le devis",
+      "createInvoice": "Créer la facture",
+      "createFailed": "Échec de la création",
+      "client": "Client",
+      "clientRequired": "*",
+      "selectClient": "Sélectionnez un client",
+      "vatRate": "Taux de TVA",
+      "yourInfo": "Vos informations",
+      "sections": "Sections",
+      "addSection": "Ajouter une section",
+      "subtotal": "Sous-total :",
+      "vat": "TVA",
+      "total": "Total :"
+    },
+    "view": {
+      "quote": "Devis",
+      "invoice": "Facture",
+      "createdFrom": "Créé à partir de",
+      "createdOn": "{document, select, quote {Créé} invoice {Créée} other {Créé}} le",
+      "viewInvoice": "→ Voir la facture",
+      "convertToInvoice": "Convertir en facture",
+      "converting": "Conversion...",
+      "notFound": "Document introuvable",
+      "services": "Services",
+      "description": "Description",
+      "unit": "Unité",
+      "quantity": "Quantité",
+      "unitPrice": "Prix unitaire",
+      "total": "Total",
+      "subtotal": "Sous-total :",
+      "vat": "TVA",
+      "payment": {
+        "title": "Informations de paiement",
+        "bank": "Banque :",
+        "iban": "IBAN :",
+        "bic": "BIC/SWIFT :"
+      },
+      "terms": {
+        "title": "Conditions générales"
+      }
+    },
+    "section": {
+      "label": "Section",
+      "name": "Nom",
+      "namePlaceholder": "Nom de la section",
+      "nameRequired": "*",
+      "description": "Description",
+      "descriptionPlaceholder": "Description",
+      "unit": "Unité",
+      "unitDay": "Jour",
+      "unitHour": "Heure",
+      "unitMission": "Mission",
+      "quantity": "Quantité",
+      "unitPrice": "Prix unitaire (€)",
+      "remove": "Supprimer"
+    }
+  },
+  "profile": {
+    "title": "Mon profil",
+    "subtitle": "Gérez vos informations personnelles utilisées dans les devis et factures",
+    "updating": "Mise à jour...",
+    "update": "Mettre à jour le profil",
+    "updateSuccess": "Profil mis à jour avec succès !",
+    "updateFailed": "Échec de la mise à jour du profil",
+    "paymentInfo": "Informations de paiement",
+    "termsSection": "Conditions générales",
+    "hideHelper": "Laissez vide pour masquer dans les documents",
+    "form": {
+      "name": "Nom",
+      "namePlaceholder": "Votre nom complet ou nom de l'entreprise",
+      "nameRequired": "*",
+      "address": "Adresse",
+      "addressPlaceholder": "Adresse de votre entreprise",
+      "addressRequired": "*",
+      "email": "Email",
+      "emailPlaceholder": "votre@email.com",
+      "phone": "Téléphone",
+      "phonePlaceholder": "+33 1 23 45 67 89",
+      "website": "Site web",
+      "websitePlaceholder": "www.votresite.com",
+      "siren": "SIREN",
+      "sirenPlaceholder": "123 456 789",
+      "vatNumber": "Numéro de TVA",
+      "vatNumberPlaceholder": "FR12345678901",
+      "bank": "Banque",
+      "bankPlaceholder": "Nom de la banque",
+      "iban": "IBAN",
+      "ibanPlaceholder": "FR14 2004 1010 0505 0001 3M02 606",
+      "bic": "BIC/SWIFT",
+      "bicPlaceholder": "SOGEFRPP",
+      "terms": "Conditions générales",
+      "termsPlaceholder": "Conditions de paiement, modalités de livraison, etc."
+    }
+  },
+  "footer": {
+    "copyright": "InvoiceBox. Tous droits réservés.",
+    "language": "Langue :"
+  },
+  "metadata": {
+    "title": "InvoiceBox - Gérez vos factures et devis",
+    "description": "Application professionnelle de gestion de factures"
   }
 }
