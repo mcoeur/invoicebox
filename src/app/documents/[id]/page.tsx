@@ -156,31 +156,41 @@ export default function DocumentViewPage({
                   </div>
                   {document.my_email && (
                     <div className="text-sm">
-                      <span className="font-medium">Email:</span>{" "}
+                      <span className="font-medium">
+                        {t("companyInfo.email")}:
+                      </span>{" "}
                       {document.my_email}
                     </div>
                   )}
                   {document.my_phone && (
                     <div className="text-sm">
-                      <span className="font-medium">Phone:</span>{" "}
+                      <span className="font-medium">
+                        {t("companyInfo.phone")}:
+                      </span>{" "}
                       {document.my_phone}
                     </div>
                   )}
                   {document.my_website && (
                     <div className="text-sm">
-                      <span className="font-medium">Website:</span>{" "}
+                      <span className="font-medium">
+                        {t("companyInfo.website")}:
+                      </span>{" "}
                       {document.my_website}
                     </div>
                   )}
                   {document.my_siren && (
                     <div className="text-sm">
-                      <span className="font-medium">SIREN:</span>{" "}
+                      <span className="font-medium">
+                        {t("companyInfo.siren")}:
+                      </span>{" "}
                       {document.my_siren}
                     </div>
                   )}
                   {document.my_vat_number && (
                     <div className="text-sm">
-                      <span className="font-medium">VAT:</span>{" "}
+                      <span className="font-medium">
+                        {t("companyInfo.vatNumber")}:
+                      </span>{" "}
                       {document.my_vat_number}
                     </div>
                   )}
@@ -198,13 +208,17 @@ export default function DocumentViewPage({
                   </div>
                   {document.client_siren && (
                     <div className="text-sm">
-                      <span className="font-medium">SIREN:</span>{" "}
+                      <span className="font-medium">
+                        {t("companyInfo.siren")}:
+                      </span>{" "}
                       {document.client_siren}
                     </div>
                   )}
                   {document.client_vat_number && (
                     <div className="text-sm">
-                      <span className="font-medium">VAT Number:</span>{" "}
+                      <span className="font-medium">
+                        {t("companyInfo.vatNumber")}:
+                      </span>{" "}
                       {document.client_vat_number}
                     </div>
                   )}

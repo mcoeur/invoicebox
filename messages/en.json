@@ -89,12 +89,23 @@
     "deleteFailed": "Failed to delete",
     "quote": "Quote",
     "invoice": "Invoice",
+    "companyInfo": {
+      "email": "Email",
+      "phone": "Phone",
+      "website": "Website",
+      "siren": "SIREN",
+      "vatNumber": "VAT Number"
+    },
     "table": {
       "type": "Type",
       "number": "Number",
       "client": "Client",
       "total": "Total",
       "created": "Created"
+    },
+    "types": {
+      "quote": "Quote",
+      "invoice": "Invoice"
     },
     "new": {
       "titleQuote": "Create New Quote",

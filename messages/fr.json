@@ -89,12 +89,23 @@
     "deleteFailed": "Échec de la suppression",
     "quote": "Devis",
     "invoice": "Facture",
+    "companyInfo": {
+      "email": "Email",
+      "phone": "Téléphone",
+      "website": "Site web",
+      "siren": "SIREN",
+      "vatNumber": "Numéro de TVA"
+    },
     "table": {
       "type": "Type",
       "number": "Numéro",
       "client": "Client",
       "total": "Total",
       "created": "Créé le"
+    },
+    "types": {
+      "quote": "Devis",
+      "invoice": "Facture"
     },
     "new": {
       "titleQuote": "Créer un nouveau devis",
