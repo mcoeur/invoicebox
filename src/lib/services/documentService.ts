@@ -222,4 +222,38 @@ export class DocumentService {
       );
     });
   }
+
+  static async getCounters(): Promise<{ type: string; counter: number }[]> {
+    const db = await getDatabase();
+    const all = promisify(db.getDb().all.bind(db.getDb()));
+
+    const counters = await all(
+      'SELECT type, counter FROM document_counters ORDER BY type',
+      []
+    ) as { type: string; counter: number }[];
+
+    return counters;
+  }
+
+  static async updateCounter(type: 'quote' | 'invoice', counter: number): Promise<void> {
+    const db = await getDatabase();
+
+    if (counter < 0) {
+      throw new Error('Counter must be a non-negative number');
+    }
+
+    return new Promise((resolve, reject) => {
+      db.getDb().run(
+        'UPDATE document_counters SET counter = ? WHERE type = ?',
+        [counter, type],
+        function(err) {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve();
+        }
+      );
+    });
+  }
 }

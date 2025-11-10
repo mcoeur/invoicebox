@@ -61,18 +61,18 @@ export default function ProfilePage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 
-          name, 
-          address, 
-          email: email || undefined, 
-          phone: phone || undefined, 
-          website: website || undefined,
-          siren: siren || undefined,
-          vat_number: vatNumber || undefined,
-          bank: bank || undefined,
-          iban: iban || undefined,
-          bic: bic || undefined,
-          terms_conditions: termsConditions || undefined
+        body: JSON.stringify({
+          name,
+          address,
+          email: email,
+          phone: phone,
+          website: website,
+          siren: siren,
+          vat_number: vatNumber,
+          bank: bank,
+          iban: iban,
+          bic: bic,
+          terms_conditions: termsConditions
         }),
       });
 
@@ -183,13 +183,14 @@ export default function ProfilePage() {
                 Website
               </label>
               <input
-                type="url"
+                type="text"
                 id="website"
                 value={website}
                 onChange={(e) => setWebsite(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="https://www.yourwebsite.com"
+                placeholder="www.yourwebsite.com"
               />
+              <p className="text-xs text-gray-500 mt-1">Leave empty to hide from documents</p>
             </div>
 
             <div>
