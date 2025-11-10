@@ -85,8 +85,8 @@ export default function DocumentViewPage({
     document.type === "quote" ? t("view.quote") : t("view.invoice");
 
   return (
-    <div className="min-h-screen bg-gray-50 print:min-h-screen print:flex print:flex-col">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 print:py-6 print:flex-1 print:flex print:flex-col">
+    <div className="min-h-screen bg-gray-50 print:min-h-screen print:flex print:flex-col print:bg-white print:w-full">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 print:max-w-none print:w-full print:mx-0 print:px-0 print:py-8 print:flex-1 print:flex print:flex-col">
         <div className="mb-6 print:mb-4 flex justify-between items-center">
           <div>
             <h1 className="text-3xl print:text-lg font-bold text-gray-900">
@@ -141,7 +141,7 @@ export default function DocumentViewPage({
           </div>
         </div>
 
-        <div className="bg-white shadow-lg rounded-lg p-8 print:p-6 print:shadow-none print:flex-1 print:flex print:flex-col">
+        <div className="bg-white shadow-lg rounded-lg p-8 print:p-0 print:shadow-none print:flex-1 print:flex print:flex-col">
           <div className="print:flex-1">
             <div className="grid grid-cols-1 print:grid-cols-2 md:grid-cols-2 gap-8 print:gap-6 mb-8 print:mb-6">
               <div>
@@ -231,22 +231,29 @@ export default function DocumentViewPage({
                 {t("view.services")}
               </h3>
               <div className="overflow-x-auto">
-                <table className="min-w-full border border-gray-200">
+                <table className="min-w-full border border-gray-200 table-fixed">
+                  <colgroup>
+                    <col className="w-auto" />
+                    <col className="w-20 print:w-16" />
+                    <col className="w-20 print:w-12" />
+                    <col className="w-28 print:w-20" />
+                    <col className="w-28 print:w-20" />
+                  </colgroup>
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase border-b border-gray-200">
+                      <th className="px-4 print:px-2 py-3 print:py-2 text-left text-xs font-medium text-gray-500 uppercase border-b border-gray-200">
                         {t("view.description")}
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase border-b border-gray-200">
+                      <th className="px-2 print:px-1 py-3 print:py-2 text-left text-xs font-medium text-gray-500 uppercase border-b border-gray-200">
                         {t("view.unit")}
                       </th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase border-b border-gray-200">
+                      <th className="px-2 print:px-1 py-3 print:py-2 text-right text-xs font-medium text-gray-500 uppercase border-b border-gray-200">
                         {t("view.quantity")}
                       </th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase border-b border-gray-200">
+                      <th className="px-2 print:px-1 py-3 print:py-2 text-right text-xs font-medium text-gray-500 uppercase border-b border-gray-200">
                         {t("view.unitPrice")}
                       </th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase border-b border-gray-200">
+                      <th className="px-2 print:px-1 py-3 print:py-2 text-right text-xs font-medium text-gray-500 uppercase border-b border-gray-200">
                         {t("view.total")}
                       </th>
                     </tr>
@@ -257,7 +264,7 @@ export default function DocumentViewPage({
                         key={section.id}
                         className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
                       >
-                        <td className="px-4 py-4 border-b border-gray-200">
+                        <td className="px-4 print:px-2 py-4 print:py-2 border-b border-gray-200">
                           <div className="font-medium text-gray-900">
                             {section.name}
                           </div>
@@ -267,16 +274,16 @@ export default function DocumentViewPage({
                             </div>
                           )}
                         </td>
-                        <td className="px-4 py-4 text-left border-b border-gray-200 text-sm text-gray-700 capitalize">
+                        <td className="px-2 print:px-1 py-4 print:py-2 text-left border-b border-gray-200 text-sm text-gray-700 capitalize whitespace-nowrap">
                           {section.unit}
                         </td>
-                        <td className="px-4 py-4 text-right border-b border-gray-200 text-sm text-gray-700">
+                        <td className="px-2 print:px-1 py-4 print:py-2 text-right border-b border-gray-200 text-sm text-gray-700 whitespace-nowrap">
                           {section.quantity}
                         </td>
-                        <td className="px-4 py-4 text-right border-b border-gray-200 text-sm text-gray-700">
+                        <td className="px-2 print:px-1 py-4 print:py-2 text-right border-b border-gray-200 text-sm text-gray-700 whitespace-nowrap">
                           €{section.unit_price.toFixed(2)}
                         </td>
-                        <td className="px-4 py-4 text-right border-b border-gray-200 text-sm font-medium text-gray-900">
+                        <td className="px-2 print:px-1 py-4 print:py-2 text-right border-b border-gray-200 text-sm font-medium text-gray-900 whitespace-nowrap">
                           €{section.total.toFixed(2)}
                         </td>
                       </tr>
@@ -319,13 +326,13 @@ export default function DocumentViewPage({
             {/* Payment Information - Only for invoices */}
             {document.type === "invoice" &&
               (document.my_bank || document.my_iban || document.my_bic) && (
-                <div className="border-t border-gray-200 pt-4 print:pt-3 mt-6 print:mt-4">
-                  <h3 className="text-lg print:text-base font-semibold text-gray-900 mb-3 print:mb-2">
+                <div className="border-t border-gray-200 pt-4 print:pt-2 mt-6 print:mt-3">
+                  <h3 className="text-lg print:text-[10px] font-semibold text-gray-900 mb-3 print:mb-1">
                     {t("view.payment.title")}
                   </h3>
-                  <div className="space-y-1 print:space-y-0.5">
+                  <div className="space-y-1 print:space-y-0">
                     {document.my_bank && (
-                      <div className="text-sm print:text-xs">
+                      <div className="text-sm print:text-[9px] print:leading-tight">
                         <span className="font-medium text-gray-700">
                           {t("view.payment.bank")}
                         </span>{" "}
@@ -333,7 +340,7 @@ export default function DocumentViewPage({
                       </div>
                     )}
                     {document.my_iban && (
-                      <div className="text-sm print:text-xs">
+                      <div className="text-sm print:text-[9px] print:leading-tight">
                         <span className="font-medium text-gray-700">
                           {t("view.payment.iban")}
                         </span>{" "}
@@ -341,7 +348,7 @@ export default function DocumentViewPage({
                       </div>
                     )}
                     {document.my_bic && (
-                      <div className="text-sm print:text-xs">
+                      <div className="text-sm print:text-[9px] print:leading-tight">
                         <span className="font-medium text-gray-700">
                           {t("view.payment.bic")}
                         </span>{" "}
@@ -354,11 +361,11 @@ export default function DocumentViewPage({
 
             {/* Terms and Conditions */}
             {document.my_terms_conditions && (
-              <div className="border-t border-gray-200 pt-4 print:pt-3 mt-6 print:mt-4">
-                <h3 className="text-lg print:text-base font-semibold text-gray-900 mb-3 print:mb-2">
+              <div className="border-t border-gray-200 pt-4 print:pt-2 mt-6 print:mt-3">
+                <h3 className="text-lg print:text-[10px] font-semibold text-gray-900 mb-3 print:mb-1">
                   {t("view.terms.title")}
                 </h3>
-                <div className="text-sm print:text-xs text-gray-700 whitespace-pre-line">
+                <div className="text-sm print:text-[9px] print:leading-tight text-gray-700 whitespace-pre-line">
                   {document.my_terms_conditions}
                 </div>
               </div>
