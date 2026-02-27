@@ -1,11 +1,12 @@
 import { getDatabase } from '../database';
-import { Document, DocumentSection, CreateDocumentRequest, CreateDocumentSectionRequest } from '@/types';
+import { Document, DocumentSection, CreateDocumentRequest } from '@/types';
 import { promisify } from 'util';
 
 export class DocumentService {
   static async generateDocumentNumber(type: 'quote' | 'invoice'): Promise<string> {
     const db = await getDatabase();
-    const get = promisify(db.getDb().get.bind(db.getDb()));
+    const get: (sql: string, params?: unknown) => Promise<unknown> =
+      promisify(db.getDb().get.bind(db.getDb()));
 
     // Get current counter and increment it
     const counterRow = await get(
@@ -40,10 +41,14 @@ export class DocumentService {
 
   static async createDocument(data: CreateDocumentRequest): Promise<Document> {
     const db = await getDatabase();
-    const get = promisify(db.getDb().get.bind(db.getDb()));
+    const get: (sql: string, params?: unknown) => Promise<unknown> =
+      promisify(db.getDb().get.bind(db.getDb()));
 
     // Get client address
-    const client = await get('SELECT address FROM clients WHERE id = ?', [data.client_id]);
+    const client = await get(
+      'SELECT address FROM clients WHERE id = ?',
+      [data.client_id]
+    ) as { address: string } | undefined;
     if (!client) {
       throw new Error('Client not found');
     }
@@ -107,8 +112,10 @@ export class DocumentService {
 
   static async getDocumentById(id: number): Promise<Document> {
     const db = await getDatabase();
-    const get = promisify(db.getDb().get.bind(db.getDb()));
-    const all = promisify(db.getDb().all.bind(db.getDb()));
+    const get: (sql: string, params?: unknown) => Promise<unknown> =
+      promisify(db.getDb().get.bind(db.getDb()));
+    const all: (sql: string, params?: unknown) => Promise<unknown[]> =
+      promisify(db.getDb().all.bind(db.getDb()));
 
     const document = await get(
       `SELECT d.*, c.name as client_name, c.siren as client_siren, c.vat_number as client_vat_number,
@@ -138,14 +145,15 @@ export class DocumentService {
 
   static async getAllDocuments(type?: 'quote' | 'invoice'): Promise<Document[]> {
     const db = await getDatabase();
-    const all = promisify(db.getDb().all.bind(db.getDb()));
+    const all: (sql: string, params?: unknown) => Promise<unknown[]> =
+      promisify(db.getDb().all.bind(db.getDb()));
 
     let query = `
       SELECT d.*, c.name as client_name, c.siren as client_siren, c.vat_number as client_vat_number 
       FROM documents d 
       LEFT JOIN clients c ON d.client_id = c.id
     `;
-    const params: any[] = [];
+    const params: Array<string | number> = [];
 
     if (type) {
       query += ' WHERE d.type = ?';
@@ -159,7 +167,6 @@ export class DocumentService {
   }
 
   static async createInvoiceFromQuote(quoteId: number): Promise<Document> {
-    const db = await getDatabase();
     
     // Get the original quote with all its data
     const quote = await this.getDocumentById(quoteId);
@@ -225,7 +232,8 @@ export class DocumentService {
 
   static async getCounters(): Promise<{ type: string; counter: number }[]> {
     const db = await getDatabase();
-    const all = promisify(db.getDb().all.bind(db.getDb()));
+    const all: (sql: string, params?: unknown) => Promise<unknown[]> =
+      promisify(db.getDb().all.bind(db.getDb()));
 
     const counters = await all(
       'SELECT type, counter FROM document_counters ORDER BY type',

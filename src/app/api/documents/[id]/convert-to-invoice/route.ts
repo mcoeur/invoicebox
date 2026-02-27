@@ -3,10 +3,11 @@ import { DocumentService } from '@/lib/services/documentService';
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const quoteId = parseInt(params.id);
+    const p = await params;
+    const quoteId = parseInt(p.id);
     
     if (isNaN(quoteId)) {
       return NextResponse.json({ error: 'Invalid quote ID' }, { status: 400 });

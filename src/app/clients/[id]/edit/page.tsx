@@ -19,29 +19,28 @@ export default function EditClientPage({ params }: { params: { id: string } }) {
   const router = useRouter();
 
   useEffect(() => {
-    fetchClient();
-  }, []);
-
-  const fetchClient = async () => {
-    try {
-      const response = await fetch(`/api/clients/${params.id}`);
-      if (response.ok) {
-        const clientData = await response.json();
-        setClient(clientData);
-        setName(clientData.name);
-        setAddress(clientData.address);
-        setSiren(clientData.siren || '');
-        setVatNumber(clientData.vat_number || '');
-      } else {
+    const fetchClient = async () => {
+      try {
+        const response = await fetch(`/api/clients/${params.id}`);
+        if (response.ok) {
+          const clientData = await response.json();
+          setClient(clientData);
+          setName(clientData.name);
+          setAddress(clientData.address);
+          setSiren(clientData.siren || '');
+          setVatNumber(clientData.vat_number || '');
+        } else {
+          router.push('/clients');
+        }
+      } catch (error) {
+        console.error('Error fetching client:', error);
         router.push('/clients');
+      } finally {
+        setInitialLoading(false);
       }
-    } catch (error) {
-      console.error('Error fetching client:', error);
-      router.push('/clients');
-    } finally {
-      setInitialLoading(false);
-    }
-  };
+    };
+    fetchClient();
+  }, [params.id, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

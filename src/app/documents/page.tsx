@@ -13,25 +13,24 @@ export default function DocumentsPage() {
   const [filter, setFilter] = useState<"all" | "quote" | "invoice">("all");
 
   useEffect(() => {
+    const fetchDocuments = async () => {
+      try {
+        const url =
+          filter === "all" ? "/api/documents" : `/api/documents?type=${filter}`;
+        const response = await fetch(url);
+
+        if (response.ok) {
+          const documents = await response.json();
+          setDocuments(documents);
+        }
+      } catch (error) {
+        console.error("Error fetching documents:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchDocuments();
   }, [filter]);
-
-  const fetchDocuments = async () => {
-    try {
-      const url =
-        filter === "all" ? "/api/documents" : `/api/documents?type=${filter}`;
-      const response = await fetch(url);
-
-      if (response.ok) {
-        const documents = await response.json();
-        setDocuments(documents);
-      }
-    } catch (error) {
-      console.error("Error fetching documents:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const deleteDocument = async (id: number, type: "quote" | "invoice") => {
     if (!confirm(t("deleteConfirm"))) {
@@ -193,7 +192,7 @@ export default function DocumentsPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
-                        {(document as any).client_name}
+                        {document.client_name}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">

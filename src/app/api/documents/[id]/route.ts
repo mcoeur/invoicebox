@@ -3,10 +3,11 @@ import { DocumentService } from '@/lib/services/documentService';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
+    const p = await params;
+    const id = parseInt(p.id);
     const document = await DocumentService.getDocumentById(id);
     
     return NextResponse.json(document);
@@ -21,10 +22,11 @@ export async function GET(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
+    const p = await params;
+    const id = parseInt(p.id);
     const deleted = await DocumentService.deleteDocument(id);
     
     if (!deleted) {

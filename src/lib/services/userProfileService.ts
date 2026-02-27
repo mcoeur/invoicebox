@@ -5,7 +5,8 @@ import { promisify } from 'util';
 export class UserProfileService {
   static async getUserProfile(): Promise<UserProfile> {
     const db = await getDatabase();
-    const get = promisify(db.getDb().get.bind(db.getDb()));
+    const get: (sql: string, params?: unknown) => Promise<unknown> =
+      promisify(db.getDb().get.bind(db.getDb()));
 
     const profile = await get('SELECT * FROM user_profile WHERE id = 1');
     
@@ -19,8 +20,8 @@ export class UserProfileService {
 
   static async updateUserProfile(data: UpdateUserProfileRequest): Promise<UserProfile> {
     const db = await getDatabase();
-    const run = promisify(db.getDb().run.bind(db.getDb()));
-    const get = promisify(db.getDb().get.bind(db.getDb()));
+    const run: (sql: string, params?: unknown) => Promise<unknown> =
+      promisify(db.getDb().run.bind(db.getDb()));
 
     const updates = [];
     const values = [];

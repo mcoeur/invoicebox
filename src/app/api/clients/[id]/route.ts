@@ -4,10 +4,11 @@ import { UpdateClientRequest } from '@/types';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
+    const p = await params;
+    const id = parseInt(p.id);
     const client = await ClientService.getClientById(id);
     
     if (!client) {
@@ -16,16 +17,18 @@ export async function GET(
 
     return NextResponse.json(client);
   } catch (error) {
+    console.error('Error fetching client:', error);
     return NextResponse.json({ error: 'Failed to fetch client' }, { status: 500 });
   }
 }
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
+    const p = await params;
+    const id = parseInt(p.id);
     const data: UpdateClientRequest = await request.json();
 
     const client = await ClientService.updateClient(id, data);
@@ -36,16 +39,18 @@ export async function PUT(
 
     return NextResponse.json(client);
   } catch (error) {
+    console.error('Error updating client:', error);
     return NextResponse.json({ error: 'Failed to update client' }, { status: 500 });
   }
 }
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
+    const p = await params;
+    const id = parseInt(p.id);
     const deleted = await ClientService.deleteClient(id);
     
     if (!deleted) {
@@ -54,6 +59,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error('Error deleting client:', error);
     return NextResponse.json({ error: 'Failed to delete client' }, { status: 500 });
   }
 }

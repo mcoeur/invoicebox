@@ -3,12 +3,11 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { UserProfile } from '@/types';
+ 
 
 export default function ProfilePage() {
   const t = useTranslations('profile');
   const tCommon = useTranslations('common');
-  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [email, setEmail] = useState('');
@@ -33,7 +32,6 @@ export default function ProfilePage() {
       const response = await fetch('/api/profile');
       if (response.ok) {
         const profileData = await response.json();
-        setProfile(profileData);
         setName(profileData.name || '');
         setAddress(profileData.address || '');
         setEmail(profileData.email || '');
@@ -80,8 +78,7 @@ export default function ProfilePage() {
       });
 
       if (response.ok) {
-        const updatedProfile = await response.json();
-        setProfile(updatedProfile);
+        await response.json();
         setMessage(t('updateSuccess'));
         setTimeout(() => setMessage(''), 3000);
       } else {

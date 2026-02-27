@@ -19,25 +19,24 @@ export default function DocumentViewPage({
   const router = useRouter();
 
   useEffect(() => {
-    fetchDocument();
-  }, []);
-
-  const fetchDocument = async () => {
-    try {
-      const response = await fetch(`/api/documents/${params.id}`);
-      if (response.ok) {
-        const data = await response.json();
-        setDocument(data);
-      } else {
+    const fetchDocument = async () => {
+      try {
+        const response = await fetch(`/api/documents/${params.id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setDocument(data);
+        } else {
+          router.push("/documents");
+        }
+      } catch (error) {
+        console.error("Error fetching document:", error);
         router.push("/documents");
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Error fetching document:", error);
-      router.push("/documents");
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+    fetchDocument();
+  }, [params.id, router]);
 
   const convertToInvoice = async () => {
     if (!document || document.type !== "quote") return;

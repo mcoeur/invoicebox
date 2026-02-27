@@ -7,6 +7,7 @@ export async function GET() {
     const clients = await ClientService.getAllClients();
     return NextResponse.json(clients);
   } catch (error) {
+    console.error('Error fetching clients:', error);
     return NextResponse.json({ error: 'Failed to fetch clients' }, { status: 500 });
   }
 }

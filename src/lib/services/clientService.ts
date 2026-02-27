@@ -5,7 +5,8 @@ import { promisify } from 'util';
 export class ClientService {
   static async createClient(data: CreateClientRequest): Promise<Client> {
     const db = await getDatabase();
-    const get = promisify(db.getDb().get.bind(db.getDb()));
+    const get: (sql: string, params?: unknown) => Promise<unknown> =
+      promisify(db.getDb().get.bind(db.getDb()));
 
     return new Promise((resolve, reject) => {
       db.getDb().run(
@@ -31,7 +32,8 @@ export class ClientService {
 
   static async getClientById(id: number): Promise<Client | null> {
     const db = await getDatabase();
-    const get = promisify(db.getDb().get.bind(db.getDb()));
+    const get: (sql: string, params?: unknown) => Promise<unknown> =
+      promisify(db.getDb().get.bind(db.getDb()));
 
     const client = await get('SELECT * FROM clients WHERE id = ?', [id]);
     return client as Client | null;
@@ -47,8 +49,8 @@ export class ClientService {
 
   static async updateClient(id: number, data: UpdateClientRequest): Promise<Client | null> {
     const db = await getDatabase();
-    const run = promisify(db.getDb().run.bind(db.getDb()));
-    const get = promisify(db.getDb().get.bind(db.getDb()));
+    const run: (sql: string, params?: unknown) => Promise<unknown> =
+      promisify(db.getDb().run.bind(db.getDb()));
 
     const updates = [];
     const values = [];

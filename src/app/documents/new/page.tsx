@@ -81,7 +81,11 @@ export default function NewDocumentPage() {
     setSections(sections.filter((_, i) => i !== index));
   };
 
-  const updateSection = (index: number, field: keyof CreateDocumentSectionRequest, value: any) => {
+  const updateSection = (
+    index: number,
+    field: keyof CreateDocumentSectionRequest,
+    value: string | number
+  ) => {
     const updatedSections = [...sections];
     updatedSections[index] = { ...updatedSections[index], [field]: value };
     setSections(updatedSections);
